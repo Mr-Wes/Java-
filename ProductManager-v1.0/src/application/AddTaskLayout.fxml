@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="320.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField id="tf_order_number" layoutX="175.0" layoutY="26.0" />
+      <TextField id="tf_order_name" layoutX="175.0" layoutY="66.0" />
+      <TextField id="tf_order_count" layoutX="175.0" layoutY="146.0" />
+      <TextArea id="ta_demand" layoutX="40.0" layoutY="200.0" prefHeight="65.0" prefWidth="320.0" />
+      <Button id="button_submit" layoutX="178.0" layoutY="280.0" mnemonicParsing="false" text="提交" />
+      <Label layoutX="90.0" layoutY="30.0" text="订单号" />
+      <Label layoutX="90.0" layoutY="70.0" text="客户名称" />
+      <Label layoutX="90.0" layoutY="110.0" text="设备类型" />
+      <Label layoutX="40.0" layoutY="180.0" text="需求" />
+      <Label layoutX="90.0" layoutY="150.0" text="数量" />
+      <ChoiceBox id="tf_order_type" layoutX="175.0" layoutY="106.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>

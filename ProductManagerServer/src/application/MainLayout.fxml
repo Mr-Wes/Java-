@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+   <children>
+      <Button fx:id="button1" layoutX="16.0" layoutY="24.0" mnemonicParsing="false" onAction="#BUTTON1_ON_CLICK" prefWidth="80.0" text="开启服务" />
+      <Button fx:id="button2" layoutX="112.0" layoutY="24.0" mnemonicParsing="false" onAction="#BUTTON2_ON_CLICK" prefWidth="80.0" text="用户列表" />
+      <Button fx:id="button3" layoutX="208.0" layoutY="24.0" mnemonicParsing="false" onAction="#BUTTON3_ON_CLICK" prefWidth="80.0" text="Button" />
+      <Button fx:id="button4" layoutX="304.0" layoutY="24.0" mnemonicParsing="false" onAction="#BUTTON4_ON_CLICK" prefWidth="80.0" text="Button" />
+      <Pane fx:id="pane1" layoutX="10.0" layoutY="64.0" prefHeight="224.0" prefWidth="380.0">
+         <children>
+            <ScrollPane prefHeight="224.0" prefWidth="380.0">
+               <content>
+                  <TextArea fx:id="text_area" prefHeight="224.0" prefWidth="365.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+      <Pane fx:id="pane2" layoutX="10.0" layoutY="64.0" prefHeight="224.0" prefWidth="380.0" visible="false" managed="false" >
+         <children>
+            <ScrollPane prefHeight="224.0" prefWidth="380.0">
+               <content>
+                  <ListView prefHeight="224.0" prefWidth="365.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane prefHeight="220.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SignController">
+   <children>
+      <Label fx:id="lb_user_name" layoutX="58.0" layoutY="59.0" text="用户名" />
+      <Label fx:id="lb_user_password" layoutX="58.0" layoutY="110.0" text="密码" />
+      <Label fx:id="lb_user_position" layoutX="58.0" layoutY="132.0" text="职位" visible="false" />
+      <TextField fx:id="tf_user_name" layoutX="125.0" layoutY="55.0" />
+      <TextField fx:id="tf_user_password" layoutX="125.0" layoutY="106.0" />
+      <ChoiceBox fx:id="cb_user_position" layoutX="125.0" layoutY="128.0" prefWidth="150.0" visible="false" />
+      <Button fx:id="bt_sign" layoutX="150.0" layoutY="165.0" mnemonicParsing="false" onAction="#ON_CLICK" prefWidth="40.0" text="登录" />
+      <Label fx:id="lb_back" layoutX="15.0" layoutY="15.0" managed="false" onMouseClicked="#BACK" text="&lt;Back" visible="false" />
+      <Label fx:id="lb_registe" layoutX="27.0" layoutY="188.0" onMouseClicked="#REGISTE" text="注册" />
+      <Label fx:id="lb_error_message" layoutX="190.0" layoutY="190.0" text="" textFill="#ff2222" />
+   </children>
+</AnchorPane>
