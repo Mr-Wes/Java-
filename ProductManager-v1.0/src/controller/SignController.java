@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import dao.DataHandle;
+import server.DataHandle;
 
 public class SignController implements Initializable {
 
@@ -41,6 +41,10 @@ public class SignController implements Initializable {
 		this.application=application;
 	}
 	
+	/**
+	 * 界面由主登录界面转换为注册界面
+	 * @param event
+	 */
 	@FXML
 	public void REGISTE(MouseEvent event) {
 		lb_user_name.setLayoutY(48.00);
@@ -59,6 +63,11 @@ public class SignController implements Initializable {
 		bt_sign.setText("注册");		
 		state_falg=FLAG_REGISTE;
 	}
+	
+	/**
+	 * 界面由注册界面转换为登录界面
+	 * @param event
+	 */
 	@FXML
 	public void BACK(MouseEvent event) {
 		lb_user_name.setLayoutY(59.00);
@@ -77,26 +86,34 @@ public class SignController implements Initializable {
 		bt_sign.setText("登录");
 		state_falg=FLAG_LOGIN;
 	}
+	
+	/**
+	 * 提交按钮点击事件
+	 * @param event
+	 */
 	@FXML
 	public void ON_CLICK(ActionEvent event) {
 		//1：判断当前界面是登录界面还是注册界面
 		if(state_falg==FLAG_LOGIN){//登录界面
-			//2：测试输入是否正确
+			//1.1：测试输入是否正确
 			if(testInput()) {
 				String name = tf_user_name.getText();
 				String password = tf_user_password.getText();
+				//向服务器发送登录请求，i作为返回结果代表登录人员的职位代码
 				int i = DataHandle.getInstance().testLogin(name, password);
-				if (i==1) {
+				if (i==0) {
+					//与服务器连接失败
+				}else if (i==-1) {
 					lb_error_message.setText("用户名不存在");
-				}else if (i==2) {
+				}else if (i==-2) {
 					lb_error_message.setText("密码输入不正确");
 				}else {
-					//登录成功
-					startMain(name, i-3);
+					//登录成功，启动新界面
+					startMain(name, i);
 				}
 			}			
 		}else {//注册界面
-			//2：测试输入数据是否正确
+			//1.2：测试输入数据是否正确
 			if(testInput()) {
 				//3：测试职位选择是否正确
 				int p = cb_user_position.getSelectionModel().selectedIndexProperty().intValue();
@@ -105,7 +122,7 @@ public class SignController implements Initializable {
 					String password = tf_user_password.getText();
 
 					int i = DataHandle.getInstance().registe(name, password, p);
-					if(i==2) {//注册成功
+					if(i==1) {//注册成功
 						//模拟back点击事件
 						lb_error_message.setText("注册成功");
 					}
@@ -115,27 +132,39 @@ public class SignController implements Initializable {
 				}
 			}
 		}
-
 	}
 	
+	/**
+	 * 测试输入数据是否合法
+	 * @return
+	 */
 	public boolean testInput() {
 		String name = tf_user_name.getText();
-		String password = tf_user_password.getText();		
+		String password = tf_user_password.getText();
 		if (name.equals("")||name==null) {
 			lb_error_message.setText("请输入用户名");
 			return false;//未输入用户名
 		}else if (name.getBytes().length>10) {
 			lb_error_message.setText("用户名长度应小于5");
 			return false;//用户名长度应小于8
+		}else if (name.indexOf(" ")!=-1) {
+			lb_error_message.setText("用户名不能含空格");
+			return false;
 		}else if (password.equals("")||password==null) {
 			lb_error_message.setText("请输入用密码");
 			return false;//未输入密码
 		}else if (password.matches("[a-zA-Z0-9]+")&&password.length()!=6) {
 			lb_error_message.setText("密码长度应为6为英文或数字");
-			return false;//密码长度不正确
+			return false;//密码字符不正确
 		}	
 		return true;
 	}
+	
+	/**
+	 * 启动新界面
+	 * @param name：用户名
+	 * @param position：职位代码
+	 */
 	public void startMain(String name, int position) {
 		Platform.runLater(new Runnable() {
 		    public void run() {             

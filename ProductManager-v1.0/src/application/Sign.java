@@ -39,9 +39,9 @@ public class Sign extends Application {
 	public void init() {
 		sign.tf_user_name.setFocusTraversable(false);
 		sign.tf_user_password.setFocusTraversable(false);
-		sign.tf_user_name.setPromptText("请输入长度小于5的字符");
-		sign.tf_user_password.setPromptText("a~z,A~Z,0~9的6位字符");		
-		sign.cb_user_position.getItems().addAll("订单员","产品经理","Bom工程师","其他");
+		sign.tf_user_name.setPromptText("请输入用户名");
+		sign.tf_user_password.setPromptText("请输入6位密码");		
+		sign.cb_user_position.getItems().addAll("订单员","产品经理","Bom工程师","仓库","采购","会计","其他");
 	}
 	public static void main(String[] args) {
 		launch();		
