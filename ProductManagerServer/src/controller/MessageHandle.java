@@ -1,18 +1,22 @@
 package controller;
 
-public class MessageHandle {
 
-	private static class Holder {
-		private static final MessageHandle INSTANCE = new MessageHandle();
-	}
-	private MessageHandle() {
-		
-	}
-	public static final MessageHandle getInstance() {
-		return Holder.INSTANCE;
-	}
+
+public class MessageHandle {
 	
-	public void handle(String str) {
+	public static void handle(String str) {
+		str = str.trim();
+		String[] args = str.split(" ");
+		switch(args[0]) {
+		case "login":
+			
+			break;
+		case "regist":
+			break;
+		default : break;
+		}		
+	}
+	public int login() {
 		
 	}
 }

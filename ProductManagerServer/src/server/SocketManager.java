@@ -10,7 +10,7 @@ import java.util.HashSet;
  */
 public class SocketManager {
 
-	private HashSet<Connection> set = new HashSet<Connection>();
+	private HashSet<SocketConnection> set = new HashSet<SocketConnection>();
 	
 	private static class Hollder{
 		private static final SocketManager INSTANCE = new SocketManager();
@@ -28,8 +28,8 @@ public class SocketManager {
 	 * @return
 	 */
 	public boolean add(Socket socket) {
-		// TODO 添加到列队中，并为其新建一个线程，负责监听数据	
-		set.add(new Connection(socket,new ReadThread(socket),new WriteThread(socket)));
+		// TODO 添加到列队中，并为其新建一个线程，负责监听数据
+		set.add(new SocketConnection(socket,new ReadThread(socket),new WriteThread(socket)));	
 		return true;
 	}
 	
@@ -40,14 +40,16 @@ public class SocketManager {
 		// TODO 清空列队，关闭socket的读写线程
 	}
 	
-	class Connection {
+	class SocketConnection {
 		Socket socket;
 		ReadThread read;
 		WriteThread write;
-		Connection(Socket socket,ReadThread read,WriteThread write){
+		SocketConnection(Socket socket,ReadThread read,WriteThread write){
 			this.socket = socket;
 			this.read = read;
 			this.write = write;
+			read.start();
+			write.start();
 		}
 	}
 }

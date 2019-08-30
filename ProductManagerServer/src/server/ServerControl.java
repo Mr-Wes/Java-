@@ -30,6 +30,11 @@ public class ServerControl {
 	public void setTextArea1(TextArea text_area) {
 		this.text_area = text_area;
 	}
+	
+	/**
+	 * 开启监听服务
+	 * @return
+	 */
 	public boolean startServer() {
 		try {
 			server = new ServerSocket(port);
@@ -41,16 +46,12 @@ public class ServerControl {
 		}
 		return true;
 	}
-	public void close() {
-		startThread.stop();
-		SocketManager.getInstance().clean();//清空所有连接
-		try {
-			server.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
+	/**
+	 * 监听Socket线程
+	 * @author Administrator
+	 *
+	 */
 	public class StartServerThread extends Thread {
 		
 		private Socket socket;
@@ -66,6 +67,19 @@ public class ServerControl {
 				text_area.appendText(socket.getInetAddress().getHostAddress()+"请求连接...\n");
 				SocketManager.getInstance().add(socket);
 			}					
+		}
+	}
+	
+	/**
+	 * 关闭服务
+	 */
+	public void close() {
+		startThread.stop();
+		SocketManager.getInstance().clean();//清空所有连接
+		try {
+			server.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

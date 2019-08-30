@@ -55,19 +55,19 @@ public class MainController implements Initializable {
 		}else {
 			//隐藏其他面板，显示面板1
 			switch(FLAG_PANE) {
-				case 2:
-					pane2.setVisible(false);
-					pane2.setManaged(false);
-					break;
-				case 3:
-					pane3.setVisible(false);
-					pane3.setManaged(false);
-					break;
-				case 4:
-					pane4.setVisible(false);
-					pane4.setManaged(false);
-					break;
-				default : break;
+			case 2:
+				pane2.setVisible(false);
+				pane2.setManaged(false);
+				break;
+			case 3:
+				pane3.setVisible(false);
+				pane3.setManaged(false);
+				break;
+			case 4:
+				pane4.setVisible(false);
+				pane4.setManaged(false);
+				break;
+			default : break;
 			}
 			pane1.setVisible(true);
 			pane1.setManaged(true);

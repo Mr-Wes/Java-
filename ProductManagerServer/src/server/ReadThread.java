@@ -27,7 +27,7 @@ public class ReadThread extends Thread {
 			buff = new BufferedReader(inputStreamReader);
 			String message;
 			while((message = buff.readLine())!=null) {
-				MessageHandle.getInstance().handle(message);
+				new MessageHandle().handle(message);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
