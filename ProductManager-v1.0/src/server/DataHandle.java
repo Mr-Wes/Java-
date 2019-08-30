@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Properties;
@@ -16,20 +15,20 @@ import java.util.Properties;
  */
 public class DataHandle {
 
+	private Socket socket;
+	
 	private static class Holder{
 		private static final DataHandle INSTANCE = new DataHandle();
 	}
-	private Socket socket;
 	private DataHandle() {
 		//开启监听服务
 		Properties server_properties = new Properties();
 		try {
-			server_properties.load(new FileInputStream(new File("")));
+			server_properties.load(new FileInputStream(new File("./src/server/server_properties")));
 			String ip = server_properties.getProperty("ip");
 			int port = Integer.parseInt(server_properties.getProperty("port"));
 			//与服务器建立连接
 			socket = new Socket(ip, port);
-			
 			//连接超时15秒，弹出提示框“连接超时，请检查网络连接”
 			// TODO 连接服务器失败的提示框
 			
