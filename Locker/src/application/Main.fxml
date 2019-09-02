@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <Button layoutX="1766.0" layoutY="65.0" mnemonicParsing="false" text="Button" />
+      <PasswordField layoutX="361.0" layoutY="661.0" />
+      <Button layoutX="720.0" layoutY="661.0" mnemonicParsing="false" text="Button" />
+      <Label layoutX="381.0" layoutY="586.0" text="Label" />
+      <WebView layoutX="1060.0" layoutY="391.0" prefHeight="200.0" prefWidth="200.0" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1502.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1380.0" layoutY="397.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>
