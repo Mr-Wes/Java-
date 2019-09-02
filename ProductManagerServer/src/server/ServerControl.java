@@ -32,7 +32,7 @@ public class ServerControl {
 	}
 	
 	/**
-	 * 开启监听服务
+	 * 新建线程，开启监听服务
 	 * @return
 	 */
 	public boolean startServer() {

@@ -8,15 +8,6 @@ import java.util.LinkedList;
 
 public class WriteThread extends Thread {
 
-	private Socket socket = null;
-	private OutputStream out = null;
-	private OutputStreamWriter outputStreamWriter = null;
-	private LinkedList<String> queue = new LinkedList<String>();
-	
-	public WriteThread(Socket socket) {
-		this.socket = socket;
-		// TODO Ð´Ïß³Ì
-	}
 	@Override
 	public void run() {
 		try {
@@ -36,15 +27,6 @@ public class WriteThread extends Thread {
 			e.printStackTrace();
 		}
 	}
-	public synchronized void setMessage(String message) {
-		queue.addLast(message);
-	}
-	public void close() throws IOException {
-		if(out!=null) {
-			out.close();
-		}
-		if(outputStreamWriter!=null) {
-			outputStreamWriter.close();
-		}
-	}
+	
+	
 }
