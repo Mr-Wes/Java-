@@ -18,6 +18,7 @@ public class Main extends Application {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/application/MainLayout.fxml"));
 			primaryStage.setTitle("禾嘉订单管理系统服务器");
+			primaryStage.setResizable(false);
 			primaryStage.setScene(new Scene(root));
 			primaryStage.show();
 		} catch (IOException e) {
@@ -27,4 +28,5 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch();
 	}
+	// TODO 重写关闭方法，关闭时要断开连接，关闭进程，清空socket列表
 }
