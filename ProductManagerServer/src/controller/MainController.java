@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import server.ServerControl;
+import server.SocketManager;
 
 public class MainController implements Initializable {
 
@@ -28,6 +29,7 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		ServerControl.getInstance().setTextArea1(text_area);
+		SocketManager.getInstance().setTextArea1(text_area);
 	}
 
 	/**
@@ -46,7 +48,7 @@ public class MainController implements Initializable {
 					text_area.appendText("服务连接失败");
 				}				
 			}else {
-				text_area.appendText("关闭服务");
+				text_area.appendText("关闭服务\n");
 				ServerControl.getInstance().close();
 				button1.setText("开启服务");
 				FLAG_START = 0;

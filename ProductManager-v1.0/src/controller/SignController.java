@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import server.DataHandle;
+import server.MessageHandle;
 
 public class SignController implements Initializable {
 
@@ -25,7 +26,7 @@ public class SignController implements Initializable {
 	private final int FLAG_REGISTE=1;
 	@FXML private Label lb_back;
 	@FXML private Label lb_registe;
-	@FXML private Label lb_error_message;
+	@FXML public Label lb_error_message;
 	@FXML protected Label lb_user_name;
 	@FXML private Label lb_user_password;
 	@FXML private Label lb_user_position;
@@ -36,6 +37,13 @@ public class SignController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		tf_user_name.setFocusTraversable(false);
+		tf_user_password.setFocusTraversable(false);
+		tf_user_name.setPromptText("请输入用户名");
+		tf_user_password.setPromptText("请输入6位密码");		
+		cb_user_position.getItems().addAll("订单员","产品经理","Bom工程师","仓库","采购","会计","其他");
+		
+		MessageHandle.getInstance().setSign(this);
 	}
 	public void setApplication(Sign application) {
 		this.application=application;
@@ -99,18 +107,8 @@ public class SignController implements Initializable {
 			if(testInput()) {
 				String name = tf_user_name.getText();
 				String password = tf_user_password.getText();
-				//向服务器发送登录请求，i作为返回结果代表登录人员的职位代码
-				int i = DataHandle.getInstance().testLogin(name, password);
-				if (i==0) {
-					//与服务器连接失败
-				}else if (i==-1) {
-					lb_error_message.setText("用户名不存在");
-				}else if (i==-2) {
-					lb_error_message.setText("密码输入不正确");
-				}else {
-					//登录成功，启动新界面
-					startMain(name, i);
-				}
+				//向服务器发送登录请
+				DataHandle.getInstance().testLogin(name, password);
 			}			
 		}else {//注册界面
 			//1.2：测试输入数据是否正确
@@ -165,10 +163,11 @@ public class SignController implements Initializable {
 	 * @param name：用户名
 	 * @param position：职位代码
 	 */
-	public void startMain(String name, int position) {
+	public void startMain(int position) {
+		
 		Platform.runLater(new Runnable() {
 		    public void run() {             
-		        new Main(name, position).start(new Stage());
+		        new Main(tf_user_name.getText(), position).start(new Stage());
 		    }
 		});
 		application.primaryStage.close();

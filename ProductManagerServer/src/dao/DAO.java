@@ -30,7 +30,7 @@ public class DAO {
 		//1：加载Properties，获得相应参数
 		Properties properties = new Properties();
 		try {
-			InputStream in = new BufferedInputStream(new FileInputStream("./src/model/SQL.properties"));
+			InputStream in = new BufferedInputStream(new FileInputStream("./src/dao/dbconfig.properties"));
 			properties.load(in);
 			driver = properties.getProperty("driver", "");
 			url = properties.getProperty("url", "");

@@ -3,10 +3,14 @@ package application;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import server.ServerControl;
+import server.SocketManager;
 
 public class Main extends Application {
 	
@@ -21,6 +25,15 @@ public class Main extends Application {
 			primaryStage.setResizable(false);
 			primaryStage.setScene(new Scene(root));
 			primaryStage.show();
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				
+				@Override
+				public void handle(WindowEvent event) {
+					ServerControl.getInstance().close();//关闭服务
+					SocketManager.getInstance().clean();//清空socket列表
+				}
+			});
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
@@ -28,5 +41,4 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch();
 	}
-	// TODO 重写关闭方法，关闭时要断开连接，关闭进程，清空socket列表
 }

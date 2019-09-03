@@ -16,7 +16,7 @@ public class DataHandle extends DAO implements DataInterface{
 	}
 	
 	/**
-	 * 返回：1-用户不存在；2-登录密码错误；3-登录成功
+	 * 返回：0-连接失败；-1-用户不存在；-2-登录密码错误；其他-登录成功
 	 */
 	@Override
 	public int testLogin(String user_name, String user_password) {
@@ -36,18 +36,19 @@ public class DataHandle extends DAO implements DataInterface{
 				result = ps.executeQuery();
 				if(result.next()) {
 					int position=result.getInt("user_position");
-					return 3+position;
+					return position;
 				}else {
-					return 2;
+					return -2;
 				}
 			}else {
-				return 1;
+				return -1;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
+	
 	@Override
 	public int registe(String user_name, String user_password, int position) {
 		try {

@@ -21,7 +21,8 @@ public class ServerControl {
 	private static class Holder{
 		private static final ServerControl INSTANCE = new ServerControl();
 	}
-	private ServerControl() {		
+	private ServerControl() {	
+		
 	}
 	public static final ServerControl getInstance() {
 		return Holder.INSTANCE;
@@ -61,11 +62,11 @@ public class ServerControl {
 			while(true) {
 				try {
 					socket = server.accept();
+					text_area.appendText(socket.getInetAddress().getHostAddress()+"请求连接...\n");
+					SocketManager.getInstance().add(socket);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				text_area.appendText(socket.getInetAddress().getHostAddress()+"请求连接...\n");
-				SocketManager.getInstance().add(socket);
 			}					
 		}
 	}
@@ -74,10 +75,14 @@ public class ServerControl {
 	 * 关闭服务
 	 */
 	public void close() {
-		startThread.stop();
+		if(startThread!=null&&startThread.isAlive()) {
+			startThread.stop();
+		}		
 		SocketManager.getInstance().clean();//清空所有连接
 		try {
-			server.close();
+			if(server!=null&&server.isBound()) {
+				server.close();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
