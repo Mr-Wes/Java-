@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
+import controller.MainController;
 import controller.MessageHandle;
 
 /**
@@ -61,16 +62,14 @@ class ReadThread extends Thread {
 	public void run() {
 		try {
 			String message;
+			//为每个连接实例创建一个处理函数
 			MessageHandle handle = new MessageHandle();
 			while((message = buff.readLine())!=null) {
-				//读取message并交给MessageHandle类处理
-				System.out.println(message+"读到了");
 				String result = handle.handle(message);
 				if(result!=null&&!(result.equals(""))) {
 					//处理结果不为空情况下，写入输出流
 					write.setMessage(result);
-				}
-				
+				}				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

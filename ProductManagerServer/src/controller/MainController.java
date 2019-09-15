@@ -22,7 +22,7 @@ public class MainController implements Initializable {
 	@FXML private Pane pane2;
 	@FXML private Pane pane3;
 	@FXML private Pane pane4;
-	@FXML public TextArea text_area;
+	@FXML public static TextArea text_area;
 	private int FLAG_PANE = 1;
 	private int FLAG_START = 0;//0-表示服务关闭；1-表示服务开启
 	

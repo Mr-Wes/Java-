@@ -8,6 +8,7 @@ import javafx.scene.control.TextArea;
 
 /**
  * 负责socket的管理
+ * 单例模式
  * @author Administrator
  *
  */
