@@ -7,7 +7,7 @@ import java.net.Socket;
 import controller.SharedData;
 
 /**
- * 控制服务的启动，关闭
+ * 控制Socket监听服务的启动，关闭
  * @author Administrator
  *
  */
@@ -74,7 +74,6 @@ public class ServerControl {
 		if(startThread!=null&&startThread.isAlive()) {
 			startThread.stop();
 		}		
-		SocketManager.getInstance().clean();//清空所有连接，关闭监听连接性线程
 		try {
 			if(server!=null&&server.isBound()) {
 				server.close();

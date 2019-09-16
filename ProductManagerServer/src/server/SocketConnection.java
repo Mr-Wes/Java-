@@ -52,7 +52,7 @@ class ReadThread extends Thread {
 	ReadThread(Socket socket, WriteThread write) throws IOException {
 		this.socket = socket;
 		this.write = write;
-		in = socket.getInputStream();
+		in = this.socket.getInputStream();
 		inputStreamReader = new InputStreamReader(in, "UTF-8");
 		buff = new BufferedReader(inputStreamReader);
 	}
@@ -97,7 +97,7 @@ class WriteThread extends Thread {
 	
 	public WriteThread(Socket socket) throws IOException {
 		this.socket = socket;
-		out = socket.getOutputStream();
+		out = this.socket.getOutputStream();
 		outputStreamWriter = new OutputStreamWriter(out);
 	}
 

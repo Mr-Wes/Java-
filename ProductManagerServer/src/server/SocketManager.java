@@ -47,6 +47,7 @@ public class SocketManager {
 	 * 
 	 */
 	public void clean() {
-		// TODO 清空列队，关闭socket的监听线程
+		// TODO 历遍集合，调用SocketConnection的close方法，清空列队，关闭socket的监听线程
+		
 	}
 }

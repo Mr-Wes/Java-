@@ -1,6 +1,5 @@
 package controller;
 
-import application.GetTextArea;
 import dao.DataHandle;
 
 public class MessageHandle {
@@ -16,7 +15,7 @@ public class MessageHandle {
 			}else {
 				//输出错误信息：参数不正确
 				//主页面显示登录失败
-				GetTextArea.getInstance().getTextArea().appendText("参数错误："+str);
+				SharedData.getInstance().TextAreaAppend("参数错误："+str);
 			}
 			break;
 		case "regist":

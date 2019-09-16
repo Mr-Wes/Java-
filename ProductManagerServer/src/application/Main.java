@@ -25,6 +25,7 @@ public class Main extends Application {
 			primaryStage.setResizable(false);
 			primaryStage.setScene(new Scene(root));
 			primaryStage.show();
+			//控制台关闭事件
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				
 				@Override
