@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.HashSet;
 
-import javafx.scene.control.TextArea;
+import controller.SharedData;
 
 /**
  * 负责socket的管理
@@ -16,26 +16,21 @@ public class SocketManager {
 
 	private SocketConnection socketConnection = null;
 	private HashSet<SocketConnection> set = new HashSet<SocketConnection>();
-	private TextArea text_area;
 	
 	private static class Hollder{
 		private static final SocketManager INSTANCE = new SocketManager();
-	}
-	
-	private SocketManager() {
-		// TODO 新建一个线程，时刻检测是否有连接中断
 	}
 	
 	public static final SocketManager getInstance() {
 		return Hollder.INSTANCE;
 	}
 	
-	public void setTextArea1(TextArea text_area) {
-		this.text_area = text_area;
+	private SocketManager() {
+		// TODO 新建一个线程，时刻检测是否有连接中断
 	}
 	
 	/**
-	 * 
+	 * 由socket新建一个SocketConnection，并将其加入到列队中
 	 * @param socket
 	 * @return
 	 * @throws IOException 
@@ -44,7 +39,7 @@ public class SocketManager {
 		socketConnection = new SocketConnection(socket);
 		socketConnection.start();
 		set.add(socketConnection);
-		text_area.appendText(socket.getInetAddress()+"连接成功\n");
+		SharedData.getInstance().TextAreaAppend(socket.getInetAddress()+"连接成功\n");
 		return true;
 	}
 	
@@ -52,6 +47,6 @@ public class SocketManager {
 	 * 
 	 */
 	public void clean() {
-		// TODO 清空列队，关闭socket的读写线程
+		// TODO 清空列队，关闭socket的监听线程
 	}
 }

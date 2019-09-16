@@ -5,6 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * 负责处理增删改查指令
+ * @author Administrator
+ *
+ */
 public class DataHandle extends DAO implements DataInterface{
 
 	private static class Holder{

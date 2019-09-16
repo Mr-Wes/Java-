@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import javafx.scene.control.TextArea;
+import controller.SharedData;
 
 /**
  * 控制服务的启动，关闭
@@ -16,7 +16,6 @@ public class ServerControl {
 	private ServerSocket server;
 	private int port = 9950;
 	private StartServerThread startThread;
-	private TextArea text_area;
 	
 	private static class Holder{
 		private static final ServerControl INSTANCE = new ServerControl();
@@ -26,10 +25,6 @@ public class ServerControl {
 	}
 	public static final ServerControl getInstance() {
 		return Holder.INSTANCE;
-	}
-	
-	public void setTextArea1(TextArea text_area) {
-		this.text_area = text_area;
 	}
 	
 	/**
@@ -62,7 +57,8 @@ public class ServerControl {
 			while(true) {
 				try {
 					socket = server.accept();
-					text_area.appendText(socket.getInetAddress().getHostAddress()+"请求连接...\n");
+					//检测到socket后，控制台输出日志，添加到SocketManager中
+					SharedData.getInstance().TextAreaAppend(socket.getInetAddress().getHostAddress()+"请求连接...\n");
 					SocketManager.getInstance().add(socket);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -78,7 +74,7 @@ public class ServerControl {
 		if(startThread!=null&&startThread.isAlive()) {
 			startThread.stop();
 		}		
-		SocketManager.getInstance().clean();//清空所有连接
+		SocketManager.getInstance().clean();//清空所有连接，关闭监听连接性线程
 		try {
 			if(server!=null&&server.isBound()) {
 				server.close();

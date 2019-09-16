@@ -45,7 +45,7 @@ public class DataHandle {
 			//新建自定义线程，负责监听从服务器来的数据
 			if(socket!=null) {
 				write = new WriteThread(socket);
-				read = new ReadThread(socket);
+				read = new ReadThread(socket, write);
 				write.start();
 				read.start();
 			} else {
@@ -115,12 +115,14 @@ public class DataHandle {
 class ReadThread extends Thread {
 
 	private Socket socket = null;
+	private WriteThread write = null;
 	private InputStream in = null;
 	private InputStreamReader inputStreamReader = null;//将一个字节流中的字节解码成字符
 	private BufferedReader buff = null;
 	
-	ReadThread(Socket socket) throws IOException {
+	ReadThread(Socket socket, WriteThread write) throws IOException {
 		this.socket = socket;
+		this.write = write;
 		in = socket.getInputStream();
 		inputStreamReader = new InputStreamReader(in, "UTF-8");
 		buff = new BufferedReader(inputStreamReader);
@@ -130,10 +132,13 @@ class ReadThread extends Thread {
 	public void run() {
 		try {
 			String message;
+			String result;
 			while((message = buff.readLine())!=null) {
 				//读取接收到的信息，并处理
-				ifMessageHandle.getInstance().handle(message);
-				System.out.println(message+"读到了");
+				result = MessageHandle.getInstance().handle(message);
+				if(result!=null&&!(result.equals(""))) {
+					write.setMessage(result);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
