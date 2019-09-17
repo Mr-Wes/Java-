@@ -3,13 +3,17 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import server.ServerControl;
+import server.SocketConnection;
 
 public class MainController implements Initializable {
 
@@ -22,12 +26,18 @@ public class MainController implements Initializable {
 	@FXML private Pane pane3;
 	@FXML private Pane pane4;
 	@FXML private TextArea text_area = new TextArea();
+	@FXML private ListView<SocketConnection> user_list;
 	private int FLAG_PANE = 1;
 	private int FLAG_START = 0;//0-表示服务关闭；1-表示服务开启
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		SharedData.getInstance().init(text_area);
+		ObservableList<SocketConnection> olist = FXCollections.observableArrayList();
+		user_list = new ListView<SocketConnection>(olist);
+		user_list.setItems(olist);
+		
+		SharedData.getInstance().setTextArea(text_area);
+		SharedData.getInstance().setList(user_list);
 	}
 
 	/**

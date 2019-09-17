@@ -3,9 +3,7 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import application.Main;
 import application.Sign;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,13 +12,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import server.DataHandle;
-import server.MessageHandle;
 
 public class SignController implements Initializable {
 
-	private Sign application;
+	public Sign application;
 	private int state_falg=0;
 	private final int FLAG_LOGIN=0;
 	private final int FLAG_REGISTE=1;
@@ -41,12 +37,17 @@ public class SignController implements Initializable {
 		tf_user_password.setFocusTraversable(false);
 		tf_user_name.setPromptText("请输入用户名");
 		tf_user_password.setPromptText("请输入6位密码");		
-		cb_user_position.getItems().addAll("订单员","产品经理","Bom工程师","仓库","采购","会计","其他");
+		cb_user_position.getItems().addAll("订单员","产品经理","Bom工程师","仓管","采购","会计","其他");
 		
-		MessageHandle.getInstance().setSign(this);
+		SharedData.getInstance().setSign(this);
 	}
+	
+	/**
+	 * 获取controller相应的application
+	 * @param application
+	 */
 	public void setApplication(Sign application) {
-		this.application=application;
+		this.application = application;
 	}
 	
 	/**
@@ -156,20 +157,5 @@ public class SignController implements Initializable {
 			return false;//密码字符不正确
 		}	
 		return true;
-	}
-	
-	/**
-	 * 启动新界面
-	 * @param name：用户名
-	 * @param position：职位代码
-	 */
-	public void startMain(int position) {
-		
-		Platform.runLater(new Runnable() {
-		    public void run() {             
-		        new Main(tf_user_name.getText(), position).start(new Stage());
-		    }
-		});
-		application.primaryStage.close();
 	}
 }

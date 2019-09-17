@@ -24,7 +24,7 @@
          <children>
             <ScrollPane prefHeight="224.0" prefWidth="380.0">
                <content>
-                  <ListView prefHeight="224.0" prefWidth="365.0" />
+                  <ListView fx:id="user_list" prefHeight="224.0" prefWidth="365.0" />
                </content>
             </ScrollPane>
          </children>

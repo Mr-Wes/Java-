@@ -18,6 +18,9 @@ import controller.MessageHandle;
  *
  */
 public class SocketConnection {
+	
+	public String user_name;
+	public String user_password;
 	Socket socket;
 	ReadThread read;
 	WriteThread write;
@@ -40,6 +43,11 @@ public class SocketConnection {
 		read.close();//关闭输入流
 		write.close();//关闭输出流
 	}
+	
+	public String toString() {
+		return null;
+		
+	}
 }
 class ReadThread extends Thread {
 
@@ -49,10 +57,10 @@ class ReadThread extends Thread {
 	private InputStreamReader inputStreamReader = null;//将一个字节流中的字节解码成字符
 	private BufferedReader buff = null;
 	
-	ReadThread(Socket socket, WriteThread write) throws IOException {
-		this.socket = socket;
-		this.write = write;
-		in = this.socket.getInputStream();
+	ReadThread(Socket s, WriteThread w) throws IOException {
+		this.socket = s;
+		this.write = w;
+		in = socket.getInputStream();
 		inputStreamReader = new InputStreamReader(in, "UTF-8");
 		buff = new BufferedReader(inputStreamReader);
 	}
@@ -65,7 +73,9 @@ class ReadThread extends Thread {
 			//为每个连接实例创建一个处理函数
 			MessageHandle handle = new MessageHandle();
 			while((message = buff.readLine())!=null) {
-				result = handle.handle(message);
+				//sys
+				System.out.println("读到了"+message);
+				result = handle.handle(socket, message);
 				if(result!=null&&!(result.equals(""))) {
 					//处理结果不为空情况下，写入输出流
 					write.setMessage(result);
@@ -114,6 +124,7 @@ class WriteThread extends Thread {
 				outputStreamWriter.write(next);
 				outputStreamWriter.flush();
 				queue.removeFirst();
+				//sys
 				System.out.println(next+"写完了");
 			} catch (NoSuchElementException e) {
 				continue;

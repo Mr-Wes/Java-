@@ -2,7 +2,7 @@ package server;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.HashSet;
+import java.util.HashMap;
 
 import controller.SharedData;
 
@@ -15,7 +15,7 @@ import controller.SharedData;
 public class SocketManager {
 
 	private SocketConnection socketConnection = null;
-	private HashSet<SocketConnection> set = new HashSet<SocketConnection>();
+	private HashMap<Socket, SocketConnection> map = new HashMap<Socket, SocketConnection>();
 	
 	private static class Hollder{
 		private static final SocketManager INSTANCE = new SocketManager();
@@ -26,6 +26,8 @@ public class SocketManager {
 	}
 	
 	private SocketManager() {
+		//分享map到SharedData
+		SharedData.getInstance().setMap(map);
 		// TODO 新建一个线程，时刻检测是否有连接中断
 	}
 	
@@ -38,7 +40,7 @@ public class SocketManager {
 	public boolean add(Socket socket) throws IOException {
 		socketConnection = new SocketConnection(socket);
 		socketConnection.start();
-		set.add(socketConnection);
+		map.put(socket, socketConnection);
 		SharedData.getInstance().TextAreaAppend(socket.getInetAddress()+"连接成功\n");
 		return true;
 	}

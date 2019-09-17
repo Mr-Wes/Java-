@@ -45,7 +45,7 @@ public class DataHandle {
 			//新建自定义线程，负责监听从服务器来的数据
 			if(socket!=null) {
 				write = new WriteThread(socket);
-				read = new ReadThread(socket, write);
+				read = new ReadThread(socket);
 				write.start();
 				read.start();
 			} else {
@@ -75,10 +75,6 @@ public class DataHandle {
 			String message = "login "+user_name+" "+user_password+"\n";
 			write.setMessage(message);
 		}
-	}
-	
-	public void test() {
-		write.setMessage("hi\n");
 	}
 	
 	/**
@@ -115,14 +111,12 @@ public class DataHandle {
 class ReadThread extends Thread {
 
 	private Socket socket = null;
-	private WriteThread write = null;
 	private InputStream in = null;
 	private InputStreamReader inputStreamReader = null;//将一个字节流中的字节解码成字符
 	private BufferedReader buff = null;
 	
-	ReadThread(Socket socket, WriteThread write) throws IOException {
-		this.socket = socket;
-		this.write = write;
+	ReadThread(Socket s) throws IOException {
+		this.socket = s;
 		in = socket.getInputStream();
 		inputStreamReader = new InputStreamReader(in, "UTF-8");
 		buff = new BufferedReader(inputStreamReader);
@@ -132,13 +126,11 @@ class ReadThread extends Thread {
 	public void run() {
 		try {
 			String message;
-			String result;
 			while((message = buff.readLine())!=null) {
 				//读取接收到的信息，并处理
-				result = MessageHandle.getInstance().handle(message);
-				if(result!=null&&!(result.equals(""))) {
-					write.setMessage(result);
-				}
+				//sys
+				System.out.println("读到了"+message);
+				MessageHandle.getInstance().handle(message);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -164,8 +156,8 @@ class WriteThread extends Thread {
 	private OutputStreamWriter outputStreamWriter = null;
 	private LinkedList<String> queue = new LinkedList<String>();
 	
-	WriteThread(Socket socket) throws IOException {
-		this.socket = socket;
+	WriteThread(Socket s) throws IOException {
+		this.socket = s;
 		out = socket.getOutputStream();
 		outputStreamWriter = new OutputStreamWriter(out);
 	}
@@ -183,6 +175,7 @@ class WriteThread extends Thread {
 				outputStreamWriter.write(next);
 				outputStreamWriter.flush();				
 				queue.removeFirst();
+				//sys
 				System.out.println(next+"写完了");
 			} catch (IOException e) {
 				e.printStackTrace();

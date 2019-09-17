@@ -15,14 +15,14 @@ import javafx.scene.Scene;
 
 public class Sign extends Application {
 
-	public Stage primaryStage;
 	SignController sign;
+	public Stage primaryStage;
 
 	@Override
-	public void start(Stage primaryStage) {
-		this.primaryStage=primaryStage;
+	public void start(Stage arg0) {
+		this.primaryStage = arg0;
 		try {
-			URL location =getClass().getResource("SignLayout.fxml");
+			URL location = getClass().getResource("SignLayout.fxml");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(location);
 			Parent root = loader.load();
@@ -34,11 +34,11 @@ public class Sign extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("禾嘉订单管理系统");
 			primaryStage.show();
+			//窗口关闭事件
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				
 				@Override
 				public void handle(WindowEvent event) {
-					//窗口关闭事件
 					DataHandle.getInstance().close();
 					
 				}
