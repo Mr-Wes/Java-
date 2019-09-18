@@ -69,17 +69,17 @@ public class ServerControl {
 	
 	/**
 	 * ¹Ø±Õ·þÎñ
+	 * @throws IOException 
 	 */
-	public void close() {
+	public void close() throws IOException {
+		if(server!=null&&server.isBound()) {
+			server.close();
+		}
+		server = null;
 		if(startThread!=null&&startThread.isAlive()) {
+			startThread.socket.close();
 			startThread.stop();
 		}		
-		try {
-			if(server!=null&&server.isBound()) {
-				server.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 	}
 }

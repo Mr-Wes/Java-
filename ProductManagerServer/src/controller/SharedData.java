@@ -17,7 +17,7 @@ import server.SocketConnection;
 public class SharedData {
 	
 	private TextArea text_area = null;
-	private ListView<SocketConnection> user_list = null;
+	private ListView<String> user_list = null;
 	private HashMap<Socket, SocketConnection> map = null;
 	
 	private static class Holder{
@@ -35,7 +35,7 @@ public class SharedData {
 		this.text_area = text_area;
 	}
 	
-	public void setList(ListView<SocketConnection> arg0) {
+	public void setList(ListView<String> arg0) {
 		this.user_list = arg0;
 	}
 	
@@ -55,10 +55,11 @@ public class SharedData {
 	public void addList(Socket socket, String str1, String str2) {
 		SocketConnection sc = map.get(socket);
 		sc.user_name = str1;
-		sc.user_password = str2;
-		ObservableList<SocketConnection> olist = user_list.getItems();
-		olist.add(sc);
+		ObservableList<String> olist = user_list.getItems();
+		olist.add(String.format("%1$-10s", str1)+socket.getInetAddress());
 		user_list.setItems(olist);
+		//sys String.format("%1$14s", str1)
+		System.out.println(String.format("%1$14s", str1));
 	}
 
 }

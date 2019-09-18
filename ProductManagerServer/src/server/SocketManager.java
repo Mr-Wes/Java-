@@ -46,10 +46,15 @@ public class SocketManager {
 	}
 	
 	/**
-	 * 
+	 * 调用所有连接对象的close方法，并清空列表
+	 * @throws IOException 
 	 */
-	public void clean() {
-		// TODO 历遍集合，调用SocketConnection的close方法，清空列队，关闭socket的监听线程
+	public void clean() throws IOException {
+		//历遍集合，调用SocketConnection的close方法，清空列队，关闭socket的监听线程
+		for (SocketConnection value : map.values()) {
+			value.close();
+		}
+		map.clear();
 		
 	}
 }

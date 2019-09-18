@@ -9,10 +9,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Properties;
+
+import controller.SharedData;
 
 /**
  * 采用单例模式（内部类方式）
@@ -39,20 +45,27 @@ public class DataHandle {
 			int port = Integer.parseInt(server_properties.getProperty("port"));
 			//与服务器建立连接
 			socket = new Socket(ip, port);
-			//连接超时15秒，弹出提示框“连接超时，请检查网络连接”
-			// TODO 连接服务器失败的提示框
+			// TODO 连接超时15秒，弹出提示框“连接超时，请检查网络连接”
 			
 			//新建自定义线程，负责监听从服务器来的数据
-			if(socket!=null) {
-				write = new WriteThread(socket);
-				read = new ReadThread(socket);
-				write.start();
-				read.start();
-			} else {
-				//TODO "客户端socket连接失败"
-			}
+			write = new WriteThread(socket);
+			read = new ReadThread(socket);
+			write.start();
+			read.start();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} catch (ConnectException e) {//客户端socket连接失败
+			try {
+				socket = new Socket(InetAddress.getByName("https://www.baidu.com").getHostAddress(), 443);				
+				SharedData.getInstance().setErrorText("服务器连接异常");
+				socket = null;
+			} catch (UnknownHostException e0) {
+				e0.printStackTrace();
+			} catch (ConnectException e1) {
+				SharedData.getInstance().setErrorText("本地网络异常");
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
@@ -89,8 +102,11 @@ public class DataHandle {
 		return 0;
 	}
 	
+	/**
+	 * 
+	 */
 	public void close() {
-		if(read.isAlive()) {
+		if(read!=null&&read.isAlive()) {
 			try {
 				read.close();
 			} catch (IOException e) {
@@ -98,7 +114,7 @@ public class DataHandle {
 			}
 			read.stop();
 		}
-		if(write.isAlive()) {
+		if(write!=null&&write.isAlive()) {
 			try {
 				write.close();
 			} catch (IOException e) {
@@ -128,7 +144,7 @@ class ReadThread extends Thread {
 			String message;
 			while((message = buff.readLine())!=null) {
 				//读取接收到的信息，并处理
-				//sys
+				//sys System.out.println("读到了"+message);
 				System.out.println("读到了"+message);
 				MessageHandle.getInstance().handle(message);
 			}
@@ -175,7 +191,7 @@ class WriteThread extends Thread {
 				outputStreamWriter.write(next);
 				outputStreamWriter.flush();				
 				queue.removeFirst();
-				//sys
+				//sys System.out.println(next+"写完了");
 				System.out.println(next+"写完了");
 			} catch (IOException e) {
 				e.printStackTrace();

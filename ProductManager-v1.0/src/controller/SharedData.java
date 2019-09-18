@@ -45,6 +45,10 @@ public class SharedData {
 	}
 
 	public void setErrorText(String string) {
-		sign.lb_error_message.setText(string);		
+		Platform.runLater(new Runnable() {
+		    public void run() {             
+		    	sign.lb_error_message.setText(string);	
+		    }
+		});	
 	}
 }

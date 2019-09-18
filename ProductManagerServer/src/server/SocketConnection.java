@@ -20,7 +20,6 @@ import controller.MessageHandle;
 public class SocketConnection {
 	
 	public String user_name;
-	public String user_password;
 	Socket socket;
 	ReadThread read;
 	WriteThread write;
@@ -37,18 +36,21 @@ public class SocketConnection {
 		write.start();
 	}
 	
+	/**
+	 * 关闭socket，关闭读写线程，关闭输入输出流
+	 * @throws IOException
+	 */
 	public void close() throws IOException {
+		if(socket!=null) {
+			socket.close();
+		}	
 		read.stop();//关闭线程
 		write.stop();
-		read.close();//关闭输入流
-		write.close();//关闭输出流
-	}
-	
-	public String toString() {
-		return null;
-		
+		read.close();//调用线程关闭方法
+		write.close();//调用线程关闭方法
 	}
 }
+
 class ReadThread extends Thread {
 
 	private Socket socket = null;
@@ -73,7 +75,7 @@ class ReadThread extends Thread {
 			//为每个连接实例创建一个处理函数
 			MessageHandle handle = new MessageHandle();
 			while((message = buff.readLine())!=null) {
-				//sys
+				//sys System.out.println("读到了"+message);
 				System.out.println("读到了"+message);
 				result = handle.handle(socket, message);
 				if(result!=null&&!(result.equals(""))) {
@@ -86,6 +88,11 @@ class ReadThread extends Thread {
 		}
 
 	}
+	
+	/**
+	 * 关闭输入流
+	 * @throws IOException
+	 */
 	public void close() throws IOException {
 		if(in!=null) {
 			in.close();
@@ -98,6 +105,7 @@ class ReadThread extends Thread {
 		}
 	}
 }
+
 class WriteThread extends Thread {
 
 	private Socket socket = null;
@@ -124,15 +132,20 @@ class WriteThread extends Thread {
 				outputStreamWriter.write(next);
 				outputStreamWriter.flush();
 				queue.removeFirst();
-				//sys
+				//sys System.out.println(next+"写完了");
 				System.out.println(next+"写完了");
-			} catch (NoSuchElementException e) {
+			} catch (NoSuchElementException e) {//列队为空
 				continue;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+	
+	/**
+	 * 关闭输出流
+	 * @throws IOException
+	 */
 	public void close() throws IOException {
 		if(out!=null) {
 			out.close();

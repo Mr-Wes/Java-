@@ -30,8 +30,12 @@ public class Main extends Application {
 				
 				@Override
 				public void handle(WindowEvent event) {
-					ServerControl.getInstance().close();//关闭服务
-					SocketManager.getInstance().clean();//清空socket列表
+					try {
+						ServerControl.getInstance().close();//关闭服务
+						SocketManager.getInstance().clean();//清空socket列表
+					} catch (IOException e) {
+						e.printStackTrace();
+					}				
 				}
 			});
 			
